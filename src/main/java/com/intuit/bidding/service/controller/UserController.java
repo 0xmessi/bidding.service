@@ -63,8 +63,8 @@ public class UserController {
 
 
     @GetMapping("/getUsers/{id}")
-    @PreAuthorize("hasAnyAuthority('USER_ROLES','ADMIN_ROLES')")
-    public UserInfoResponse getAllUsers(@PathVariable Integer id){
+    @PreAuthorize("hasAnyAuthority('USER_ROLES','VENDOR_ROLES','ADMIN_ROLES')")
+    public UserInfoResponse getAllUsers(@PathVariable Long id){
         UserInfoResponse userInfo = userInfoService.getUser(id);
         if (userInfo == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find user");

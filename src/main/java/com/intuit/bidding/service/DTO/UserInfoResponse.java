@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class UserInfoResponse {
-    private Integer id;
+    private Long id;
     private String name;
     private String email;
     private String roles;

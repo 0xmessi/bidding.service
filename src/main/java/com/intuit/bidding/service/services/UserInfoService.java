@@ -37,7 +37,7 @@ public class UserInfoService implements UserDetailsService {
     public List<UserInfo> getAllUser(){
          return userInfoRepository.findAll();
     }
-    public UserInfoResponse getUser(Integer id){
+    public UserInfoResponse getUser(Long id){
         if (id == null) {
             return null;
         }
