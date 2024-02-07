@@ -6,7 +6,10 @@ import com.intuit.bidding.service.entity.UserInfo;
 import com.intuit.bidding.service.services.JwtService;
 import com.intuit.bidding.service.services.UserInfoService;
 
+import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
+@Log4j2
 public class UserController {
     @Autowired
     private UserInfoService userInfoService;
@@ -35,8 +39,12 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(@RequestBody UserInfo userInfo){
-        return userInfoService.register(userInfo);
-
+        try{
+            return userInfoService.register(userInfo);
+        } catch (DataIntegrityViolationException e) {
+            log.error("Could not register user: " + e);
+            throw new ResponseStatusException( HttpStatus.CONFLICT, "Could not register user");
+        }
     }
     @PostMapping("/login")
     public String register(@RequestBody AuthRequest authRequest){
